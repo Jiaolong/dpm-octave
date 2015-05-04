@@ -22,20 +22,28 @@ cls = model.class;
 
 %load and display image
 im = imread(imname);
-clf;
-image(im);
-axis equal;
-axis on;
-title('input image');
+%clf;
+%image(im);
+%axis equal;
+%axis on;
+%title('input image');
 disp('input image');
-disp('press any key to continue'); pause;
-disp('continuing...');
+%disp('press any key to continue'); pause;
+%disp('continuing...');
 
 % load and display model
-model.vis();
+%model.vis();
 
 % detect objects
 tic;
-%[ds, bs] = imgdetect(im, model, -1);
+[ds, bs] = imgdetect(im, model, -1);
 toc;
+top = nms(ds, 0.5);
+top = top(1:min(length(top), num_dets));
+ds = ds(top, :);
+bs = bs(top, :);
+
+clf;
+
+showboxes(im, reduceboxes(model, bs));
 end

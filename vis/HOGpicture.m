@@ -22,7 +22,7 @@ bim1(:,round(bs/2):round(bs/2)+1) = 1;
 bim = zeros([size(bim1) 9]);
 bim(:,:,1) = bim1;
 for i = 2:9,
-  bim(:,:,i) = imrotate(bim1, -(i-1)*20, 'crop');
+  bim(:,:,i) = imrotate(bim1, -(i-1)*20, 'nearest', 'crop');
 end
 
 % make pictures of positive weights bs adding up weighted glyphs

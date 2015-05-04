@@ -1,3 +1,14 @@
+function [ds, bs, trees] = imgdetect(im, model, thresh)
+% Wrapper around gdetect.m that computes detections in an image.
+%   [ds, bs, trees] = imgdetect(im, model, thresh)
+%
+% Return values (see gdetect.m)
+%
+% Arguments
+%   im        Input image
+%   model     Model to use for detection
+%   thresh    Detection threshold (scores must be > thresh)
+
 % AUTORIGHTS
 % -------------------------------------------------------
 % Copyright (C) 2009-2012 Ross Girshick
@@ -10,24 +21,6 @@
 % your project.
 % -------------------------------------------------------
 
-% Model types:
-%   MixStar   Mixture of star models with latent orientation
-%   Grammar   General grammar model (no specific structure)
-classdef (Sealed) model_types
-  properties  (Constant)
-    MixStar = 'M';
-    Grammar = 'G';
-  end
-  methods (Access = private)
-    function out = model_types
-    end
-  end
-end
-
-% Note: Enumerations are only available in matlab >= 2010b
-%
-%classdef model_types
-%  enumeration
-%    MixStar, Grammar
-%  end
-%end
+im = color(im);
+pyra = featpyramid(im, model);
+[ds, bs, trees] = gdetect(pyra, model, thresh);
