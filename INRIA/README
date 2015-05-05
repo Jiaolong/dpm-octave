@@ -1,6 +1,6 @@
 This model was trained using the PASCAL VOC compatible INRIA annotations and 
 devkit. You can download them from:
-http://people.cs.uchicago.edu/~rbg/INRIA_PASCAL.tgz.
+http://www.cs.berkeley.edu/~rbg/latent/INRIA_PASCAL.tgz
 
 This archive does not include the images -- it's just the annotations and a 
 PASCAL-compatible directory structure for holding the VOCdevkit, images, and 
