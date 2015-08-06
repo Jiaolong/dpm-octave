@@ -92,3 +92,16 @@ catch
   end
   save('-mat7-binary', [cachedir cls '_lrsplit2.mat'], 'models');
 end
+
+% Train a mixture model composed all of aspect ratio groups and 
+% latent orientation choices using latent positives and hard negatives
+try 
+  load([cachedir cls '_mix.mat']);
+catch
+  seed_rand();
+  % Combine separate mixture models into one mixture model
+  model = model_merge(models);
+  model = train(model, impos, neg_small, false, false, 1, 5, ...
+                max_num_examples, fg_overlap, num_fp, false, 'mix');
+  save([cachedir cls '_mix.mat'], 'model');
+end
