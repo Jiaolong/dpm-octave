@@ -1,6 +1,7 @@
 % add path
-incl = {'utils', 'vis', 'model', 'gdetect',...
-'features', 'bin', 'test'};
+incl = {'utils', 'data', 'vis', 'model', 'gdetect',...
+'features', 'bin', 'train', 'evaluation', 'test', ...
+'fv_cache', 'external', 'INRIA'};
 
 for i = 1:length(incl)
 	addpath(genpath(incl{i}));
@@ -16,3 +17,5 @@ clear i incl;
 
 % load image package
 pkg load image;
+% load statistics package
+pkg load statistics

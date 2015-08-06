@@ -29,19 +29,20 @@ function [m, bl] = model_add_block(m, varargin);
 % your project.
 % -------------------------------------------------------
 
+block_types = block_types_def();
 valid_opts = {'reg_mult', 'learn', 'lower_bounds', 'shape', 'w', 'type'};
 opts = getopts(varargin, valid_opts);
 
 % OPT: w
-if opts.isKey('w')
-  w = opts('w');
+if isfield(opts, 'w')
+  w = opts.('w');
 else
   w = [];
 end
 
 % OPT: shape
-if opts.isKey('shape')
-  shape = opts('shape');
+if isfield(opts, 'shape')
+  shape = opts.('shape');
   if isempty(w)
     w = zeros(prod(shape), 1);
   end
@@ -53,29 +54,29 @@ end
 dim = prod(shape);
 
 % OPT: reg_mult
-if opts.isKey('reg_mult')
-  reg_mult = opts('reg_mult');
+if isfield(opts, 'reg_mult')
+  reg_mult = opts.('reg_mult');
 else
   reg_mult = 1;
 end
 
 % OPT: learn
-if opts.isKey('learn')
-  learn = opts('learn');
+if isfield(opts, 'learn')
+  learn = opts.('learn');
 else
   learn = 1;
 end
 
 % OPT: lower_bounds
-if opts.isKey('lower_bounds')
-  lower_bounds = opts('lower_bounds');
+if isfield(opts, 'lower_bounds')
+  lower_bounds = opts.('lower_bounds');
 else
   lower_bounds = -inf*ones(dim, 1);
 end
 
 % OPT: type
-if opts.isKey('type')
-  btype = opts('type');
+if isfield(opts, 'type')
+  btype = opts.('type');
 else
   btype = block_types.Other;
 end

@@ -36,6 +36,8 @@ VOCopts  = conf.pascal.VOCopts;
 cachedir = conf.paths.model_dir;
 cls = model.class;
 
+model_types = model_types_def();
+
 ids = textread(sprintf(VOCopts.imgsetpath, testset), '%s');
 
 % run detector in each image

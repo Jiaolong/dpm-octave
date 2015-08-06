@@ -7,6 +7,8 @@ pkg list
 pkg install -forge general
 pkg install -forge control
 pkg install -forge signal
+pkg install -forge io
+pkg install -forge statistics
 
 download the image package from
 http://sourceforge.net/projects/octave/files/Octave%20Forge%20Packages/Individual%20Package%20Releases/

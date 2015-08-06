@@ -135,7 +135,7 @@ conf = cv(conf, 'pascal.year', PASCAL_YEAR);
 %conf = cv(conf, 'pascal.dev_kit', [conf.paths.cache_dir '/VOC' ...
 %                                   conf.pascal.year '/VOCdevkit/']);
 % For INRIA person                                   
-conf = cv(conf, 'pascal.dev_kit', [conf.paths.data_dir '/INRIA_PASCAL/VOCdevkit/']);
+conf = cv(conf, 'pascal.dev_kit', ['./evaluation/INRIA/']);
 
 if exist(conf.pascal.dev_kit) == 0
   global G_VOC_CONFIG_HELLO;
@@ -227,11 +227,7 @@ function VOCopts = get_voc_opts(conf)
 persistent voc_opts;
 
 if isempty(voc_opts)
-  tmp = pwd;
-  cd(conf.pascal.dev_kit);
-  addpath([cd '/VOCcode']);
   VOCinit;
-  cd(tmp);
   voc_opts = VOCopts;
 end
 VOCopts = voc_opts;

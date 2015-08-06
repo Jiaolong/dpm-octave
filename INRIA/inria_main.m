@@ -15,7 +15,7 @@ diary(conf.training.log([cls '-' timestamp]));
 
 % Train a model
 th = tic;
-model = pascal_train(cls, n, timestamp);
+model = pascal_train(cls, 1, timestamp);
 toc(th);
 
 % Free the feature vector cache memory

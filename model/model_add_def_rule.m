@@ -43,6 +43,8 @@ function [m, rule] = model_add_def_rule(m, lhs, rhs, varargin)
 % your project.
 % -------------------------------------------------------
 
+block_types = block_types_def();
+
 valid_opts = {'flip', 'offset_w', 'offset_blocklabel', ...
               'def_w', 'def_blocklabel', ...
               'loc_w', 'loc_blocklabel', 'detection_window', ...
@@ -56,30 +58,30 @@ catch
   m.rules{lhs} = [];
 end
 
-if opts.isKey('mirror_rule')
-  rule = opts('mirror_rule');
-  opts('flip')                    = ~rule.def.flip;
-  opts('def_blocklabel')          = rule.def.blocklabel;
-  opts('offset_blocklabel')       = rule.offset.blocklabel;
-  opts('loc_blocklabel')          = rule.loc.blocklabel;
-  opts('detection_window')        = rule.detwindow;
-  opts('shift_detection_window')  = rule.shiftwindow;
+if isfield(opts, 'mirror_rule')
+  rule = opts.('mirror_rule');
+  opts.('flip')                    = ~rule.def.flip;
+  opts.('def_blocklabel')          = rule.def.blocklabel;
+  opts.('offset_blocklabel')       = rule.offset.blocklabel;
+  opts.('loc_blocklabel')          = rule.loc.blocklabel;
+  opts.('detection_window')        = rule.detwindow;
+  opts.('shift_detection_window')  = rule.shiftwindow;
 end
 
-if opts.isKey('flip')
-  flip = opts('flip');
+if isfield(opts, 'flip')
+  flip = opts.('flip');
 else
   flip = false;
 end
 
-if opts.isKey('offset_w')
-  offset_w = opts('offset_w');
+if isfield(opts, 'offset_w')
+  offset_w = opts.('offset_w');
 else
   offset_w = 0;
 end
 
-if opts.isKey('offset_blocklabel')
-  offset_bl = opts('offset_blocklabel');  
+if isfield(opts, 'offset_blocklabel')
+  offset_bl = opts.('offset_blocklabel');  
 else
   % by default set the learning rate and regularization
   % multipliers to zero for deformation rule offsets
@@ -89,16 +91,16 @@ else
                                    'learn', 0);
 end
 
-if opts.isKey('def_w')
-  def_w = opts('def_w');
+if isfield(opts, 'def_w')
+  def_w = opts.('def_w');
 else
-  if ~opts.isKey('def_blocklabel')
+  if ~isfield(opts, 'def_blocklabel')
     error('argument ''def_w'' required');
   end
 end
 
-if opts.isKey('def_blocklabel')
-  def_bl = opts('def_blocklabel');
+if isfield(opts, 'def_blocklabel')
+  def_bl = opts.('def_blocklabel');
 else
   lb = [0.001; -inf; 0.001; -inf];
   [m, def_bl] = model_add_block(m, ...
@@ -109,14 +111,14 @@ else
                                 'lower_bounds', lb);
 end
 
-if opts.isKey('loc_w')
-  loc_w = opts('loc_w');
+if isfield(opts, 'loc_w')
+  loc_w = opts.('loc_w');
 else
   loc_w = [0 0 0];
 end
 
-if opts.isKey('loc_blocklabel')
-  loc_bl = opts('loc_blocklabel');
+if isfield(opts, 'loc_blocklabel')
+  loc_bl = opts.('loc_blocklabel');
 else
   % by default no learning and no regularization
   [m, loc_bl] = model_add_block(m, ...
@@ -125,14 +127,14 @@ else
                                 'learn', 0);
 end
 
-if opts.isKey('detection_window')
-  detwindow = opts('detection_window');
+if isfield(opts, 'detection_window')
+  detwindow = opts.('detection_window');
 else
   detwindow = [0 0];
 end
 
-if opts.isKey('shift_detection_window')
-  shiftwindow = opts('shift_detection_window');
+if isfield(opts, 'shift_detection_window')
+  shiftwindow = opts.('shift_detection_window');
 else
   shiftwindow = [0 0];
 end

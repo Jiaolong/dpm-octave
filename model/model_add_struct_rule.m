@@ -58,22 +58,22 @@ catch
   m.rules{lhs} = [];
 end
 
-if opts.isKey('mirror_rule')
-  rule = opts('mirror_rule');
-  opts('offset_blocklabel')       = rule.offset.blocklabel;
-  opts('loc_blocklabel')          = rule.loc.blocklabel;
-  opts('detection_window')        = rule.detwindow;
-  opts('shift_detection_window')  = rule.shiftwindow;
+if isfield(opts, 'mirror_rule')
+  rule = opts.('mirror_rule');
+  opts.('offset_blocklabel')       = rule.offset.blocklabel;
+  opts.('loc_blocklabel')          = rule.loc.blocklabel;
+  opts.('detection_window')        = rule.detwindow;
+  opts.('shift_detection_window')  = rule.shiftwindow;
 end
 
-if opts.isKey('offset_w')
-  offset_w = opts('offset_w');
+if isfield(opts, 'offset_w')
+  offset_w = opts.('offset_w');
 else
   offset_w = 0;
 end
 
-if opts.isKey('offset_blocklabel')
-  offset_bl = opts('offset_blocklabel');  
+if isfield(opts, 'offset_blocklabel')
+  offset_bl = opts.('offset_blocklabel');  
 else
   [m, offset_bl] = model_add_block(m, ...
                                    'w', offset_w, ...
@@ -81,14 +81,14 @@ else
                                    'learn', 20);
 end
 
-if opts.isKey('loc_w')
-  loc_w = opts('loc_w');
+if isfield(opts, 'loc_w')
+  loc_w = opts.('loc_w');
 else
   loc_w = [0 0 0];
 end
 
-if opts.isKey('loc_blocklabel')
-  loc_bl = opts('loc_blocklabel');
+if isfield(opts, 'loc_blocklabel')
+  loc_bl = opts.('loc_blocklabel');
 else
   % by default no learning and no regularization
   [m, loc_bl] = model_add_block(m, ...
@@ -97,14 +97,14 @@ else
                                 'learn', 0);
 end
 
-if opts.isKey('detection_window')
-  detwindow = opts('detection_window');
+if isfield(opts, 'detection_window')
+  detwindow = opts.('detection_window');
 else
   detwindow = [0 0];
 end
 
-if opts.isKey('shift_detection_window')
-  shiftwindow = opts('shift_detection_window');
+if isfield(opts, 'shift_detection_window')
+  shiftwindow = opts.('shift_detection_window');
 else
   shiftwindow = [0 0];
 end

@@ -26,6 +26,7 @@ function [blocks, lower_bounds, reg_mult, learn_mult, comps] ...
 % your project.
 % -------------------------------------------------------
 
+model_types = model_types_def();
 blocks        = get_blocks(model);
 lower_bounds  = get_lb(model);
 reg_mult      = get_rm(model);
@@ -72,6 +73,7 @@ function comp = get_comps(model)
 % ------------------------------------------------------------------------
 % Get a list of which blocks are used by each component
 % Used for computing max-component regularization
+model_types = model_types_def();
 assert(model.type == model_types.MixStar);
 
 n = length(model.rules{model.start});
@@ -94,13 +96,13 @@ for i = 1:n
   end
 end
 
-ht = containers.Map;
+ht = struct();
 for i = 1:n
   bls = sort(comp{i});
   key = num2str(bls);
   % Don't add components that use exactly the same blocks twice
-  if ~ht.isKey(key)
-    ht(key) = true;
+  if ~isfield(ht, key)
+    ht.(key) = true;
     comp{i} = int32(bls');
   else
     comp{i} = [];

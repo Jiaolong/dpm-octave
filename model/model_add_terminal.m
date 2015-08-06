@@ -31,31 +31,31 @@ function [m, symbol, filterind] = model_add_terminal(m, varargin)
 
 valid_opts = {'w', 'blocklabel', 'flip', 'mirror_terminal'};
 opts = getopts(varargin, valid_opts);
-
-if opts.isKey('mirror_terminal')
-  src_terminal = opts('mirror_terminal');
+block_types = block_types_def();
+if isfield(opts, 'mirror_terminal')
+  src_terminal = opts.('mirror_terminal');
   fi = m.symbols(src_terminal).filter;
-  opts('blocklabel') = m.filters(fi).blocklabel;
-  opts('w')          = flipfeat(model_get_block(m, m.filters(fi)));
-  opts('flip')       = ~m.filters(fi).flip;
+  opts.('blocklabel') = m.filters(fi).blocklabel;
+  opts.('w')          = flipfeat(model_get_block(m, m.filters(fi)));
+  opts.('flip')       = ~m.filters(fi).flip;
 end
 
-if opts.isKey('w')
-  w = opts('w');
+if isfield(opts, 'w')
+  w = opts.('w');
 else
   error('argument ''w'' is required');
 end
 
-if opts.isKey('blocklabel')
-  blocklabel = opts('blocklabel');
+if isfield(opts, 'blocklabel')
+  blocklabel = opts.('blocklabel');
 else
   [m, blocklabel] = model_add_block(m, ...
                                     'type', block_types.Filter, ...
                                     'w', w);
 end
 
-if opts.isKey('flip')
-  flip = opts('flip');
+if isfield(opts, 'flip')
+  flip = opts.('flip');
 else
   flip = false;
 end

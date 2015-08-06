@@ -21,22 +21,20 @@ function map = getopts(in, valid_keys)
 % your project.
 % -------------------------------------------------------
 
-map = containers.Map();
+map = struct();
 
-%for i = 1:2:length(defaults)
-%  map(defaults{i}) = defaults{i+1};
-%end
-
+valid_keys_map = struct();
 if ~isempty(valid_keys)
-  valid_keys = containers.Map(valid_keys, ...
-                              num2cell(ones(length(valid_keys), 1)));
+  for i = 1:length(valid_keys)
+      valid_keys_map.(valid_keys{i}) = true;
+  end
 end
 
 for i = 1:2:length(in)
   key = in{i};
   val = in{i+1};
-  if ~isempty(valid_keys) && ~valid_keys.isKey(key)
+  if ~isempty(valid_keys_map) && ~isfield(valid_keys_map, key)
     error('invalid key: %s', key);
   end
-  map(key) = val;
+  map.(key) = val;
 end

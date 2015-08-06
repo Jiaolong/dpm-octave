@@ -53,7 +53,7 @@ pyra.imsize = imsize;
 % our resize function wants floating point values
 im = double(im);
 for i = 1:interval
-  scaled = resize(im, 1/sc^(i-1));
+  scaled = fresize(im, 1/sc^(i-1));
   if extra_interval > 0
     % Optional (sbin/4) x (sbin/4) features
     pyra.feat{i} = features(scaled, sbin/4);
@@ -67,7 +67,7 @@ for i = 1:interval
   pyra.scales(i+extra_interval+interval) = 1/sc^(i-1);
   % Remaining pyramid octaves 
   for j = i+interval:interval:max_scale
-    scaled = resize(scaled, 0.5);
+    scaled = fresize(scaled, 0.5);
     pyra.feat{j+extra_interval+interval} = features(scaled, sbin);
     pyra.scales(j+extra_interval+interval) = 0.5 * pyra.scales(j+extra_interval);
   end

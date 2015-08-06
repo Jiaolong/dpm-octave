@@ -204,7 +204,7 @@ void gradient(double *obj_val_out, double *grad, const int dim,
 
     const int num_examples = E.size();
 
-    #pragma omp for schedule(static)
+    //#pragma omp for schedule(static)
     for (int q = 0; q < num_examples; q++) {
       // Check margin-bound pruning condition
       // See Appendix B of my dissertation for details

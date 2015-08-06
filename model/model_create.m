@@ -27,6 +27,8 @@ if nargin < 2
   note = '';
 end
 
+model_types = model_types_def();
+
 m.class         = cls;                % object class/category
 m.year          = conf.pascal.year;   % dataset year (PASCAL specific)
 m.note          = note;               % decription of the model
