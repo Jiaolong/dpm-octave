@@ -42,7 +42,7 @@ ids = textread(sprintf(VOCopts.imgsetpath, testset), '%s');
 
 % run detector in each image
 try
-  load([cachedir cls '_boxes_' testset '_' suffix]);
+  load([cachedir cls '_boxes_' testset '_' suffix '.mat']);
 catch
   % parfor gets confused if we use VOCopts
   opts = VOCopts;
@@ -50,10 +50,10 @@ catch
   ds_out = cell(1, num_ids);
   bs_out = cell(1, num_ids);
   th = tic();
-  parfor i = 1:num_ids;
-    fprintf('%s: testing: %s %s, %d/%d\n', cls, testset, year, ...
+  parfor i = 13:num_ids;
+    fprintf_flush('%s: testing: %s %s, %d/%d\n', cls, testset, year, ...
             i, num_ids);
-    if strcmp('inriaperson', cls)
+    if strcmp('inriaperson1', cls)
       % INRIA uses a mixutre of PNGs and JPGs, so we need to use the annotation
       % to locate the image.  The annotation is not generally available for PASCAL
       % test data (e.g., 2009 test), so this method can fail for PASCAL.
@@ -97,7 +97,7 @@ catch
   th = toc(th);
   ds = ds_out;
   bs = bs_out;
-  save([cachedir cls '_boxes_' testset '_' suffix], ...
+  save('-mat7-binary', [cachedir cls '_boxes_' testset '_' suffix '.mat'], ...
        'ds', 'bs', 'th');
   fprintf('Testing took %.4f seconds\n', th);
 end

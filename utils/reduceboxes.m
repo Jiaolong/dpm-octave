@@ -44,6 +44,11 @@ maxc = max(bs(:,end-1));
 for i = 1:maxc
   % process boxes for component i
   I = find(bs(:,end-1) == i);
+  
+  if isempty(I)
+      continue;
+  end
+
   tmp = bs(I,:);
   del = [];
   % find unused filters

@@ -27,12 +27,12 @@ if nargin < 4
   scale = 1;
 end
 
-if scale == 0
-  filterx = filter;
-else
-  % interpolate source filter
-  filterx = imresize(filter, 2^scale, 'bicubic');
+filterx = filter;
+
+if scale
+   filterx = resizefilter(filter, 2^scale); 
 end
+
 template = fspecial('average', psize);
 alpha = 0.1;
 

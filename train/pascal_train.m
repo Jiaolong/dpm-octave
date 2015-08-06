@@ -61,6 +61,7 @@ neg_large = neg; % use all of the negative images
 try
   load([cachedir cls '_lrsplit1.mat']);
 catch
+  fprintf_flush('Training one asymmetric root model ...\n');
   seed_rand();
   for i = 1:n
     models{i} = root_model(cls, spos{i}, note);
@@ -82,6 +83,7 @@ end
 try
   load([cachedir cls '_lrsplit2.mat']);
 catch
+  fprintf_flush('Training mirrored root model ...\n');
   seed_rand();
   for i = 1:n
     % Build a mixture of two (mirrored) root filters
@@ -98,10 +100,46 @@ end
 try 
   load([cachedir cls '_mix.mat']);
 catch
+  fprintf_flush('Training mixture root model ...\n');
   seed_rand();
   % Combine separate mixture models into one mixture model
   model = model_merge(models);
   model = train(model, impos, neg_small, false, false, 1, 5, ...
                 max_num_examples, fg_overlap, num_fp, false, 'mix');
-  save([cachedir cls '_mix.mat'], 'model');
+  save('-mat7-binary', [cachedir cls '_mix.mat'], 'model');
 end
+
+% Train a mixture model with 2x resolution parts using latent positives
+% and hard negatives
+try 
+  load([cachedir cls '_parts.mat']);
+catch
+  fprintf_flush('Training mixture model with parts...\n');
+  seed_rand();
+  % Add parts to each mixture component
+  for i = 1:2:2*n
+    % Top-level rule for this component
+    ruleind = i;
+    % Top-level rule for this component's mirror image
+    partner = i+1;
+    % Filter to interoplate parts from
+    filterind = i;
+    model = model_add_parts(model, model.start, ruleind, ...
+                            partner, filterind, 8, [6 6], 1);
+    % Enable learning location/scale prior
+    bl = model.rules{model.start}(i).loc.blocklabel;
+    model.blocks(bl).w(:)     = 0;
+    model.blocks(bl).learn    = 1;
+    model.blocks(bl).reg_mult = 1;
+  end
+  % Train using several rounds of positive latent relabeling
+  % and data mining on the small set of negative images
+  model = train(model, impos, neg_small, false, false, 8, 10, ...
+                max_num_examples, fg_overlap, num_fp, false, 'parts_1');
+  % Finish training by data mining on all of the negative images
+  model = train(model, impos, neg_large, false, false, 1, 5, ...
+                max_num_examples, fg_overlap, num_fp, true, 'parts_2');
+  save('-mat7-binary', [cachedir cls '_parts.mat'], 'model');
+end
+
+save('-mat7-binary', [cachedir cls '_final.mat'], 'model');

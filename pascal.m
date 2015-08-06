@@ -59,8 +59,27 @@ pascal_train(cls, n, note);
 toc(th);
 
 % Free the feature vector cache memory
-% fv_cache('free');
+fv_cache('free');
 
 % Lower threshold to get high recall
-% model.thresh = min(conf.eval.max_thresh, model.thresh);
-% model.interval = conf.eval.interval;
+model.thresh = min(conf.eval.max_thresh, model.thresh);
+model.interval = conf.eval.interval;
+
+suffix = testyear;
+
+% Collect detections on the test set
+ds = pascal_test(model, testset, testyear, suffix);
+
+% Evaluate the model without bounding box prediction
+% ap1 = pascal_eval(cls, ds, testset, testyear, suffix);
+% fprintf('AP = %.4f (without bounding box prediction)\n', ap1)
+
+% Recompute AP after applying bounding box prediction
+% [ap1, ap2] = bboxpred_rescore(cls, testset, testyear, suffix);
+% fprintf('AP = %.4f (without bounding box prediction)\n', ap1)
+% fprintf('AP = %.4f (with bounding box prediction)\n', ap2)
+
+% Compute detections on the trainval dataset (used for context rescoring)
+if dotrainval
+  trainval(cls);
+end

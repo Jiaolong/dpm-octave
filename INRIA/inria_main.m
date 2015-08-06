@@ -19,4 +19,13 @@ model = pascal_train(cls, 1, timestamp);
 toc(th);
 
 % Free the feature vector cache memory
-%fv_cache('free');
+fv_cache('free');
+
+% Lower threshold to get high recall
+model.thresh = min(conf.eval.max_thresh, model.thresh);
+model.interval = conf.eval.interval;
+
+testset = 'testpos';
+% Collect detections on the test set
+ds = pascal_test(model, testset, '2007', '2007');
+
