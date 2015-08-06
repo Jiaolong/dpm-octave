@@ -16,14 +16,17 @@ for n = 1:length(files)
         continue;
     end
 
-	fprintf_flush('Compiling %s ...\n', fname);	
+	fprintf('Compiling %s ...\n', fname);	
     
     fmex = [fname(1:end-3) '.mex'];		
     eval([octcmd(verb) ' ' fname ' -o ../bin/' fmex]);
 end
 
+% compile lbfgs
+eval([octcmd(verb) ' lbfgsC.c -o ../bin/lbfgsC.mex']);
+
 % compile fv_cache
-fprintf_flush('Compiling fv_cache ...\n');	
+fprintf('Compiling fv_cache ...\n');	
 
 fv_compile(verb);
 
