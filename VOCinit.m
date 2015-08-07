@@ -19,7 +19,7 @@ VOCopts.testset='test'; % use test set for final challenge
 VOCopts.imgsetpath=[VOCopts.datadir 'VOC2007/ImageSets/%s.txt'];
 VOCopts.clsimgsetpath=[VOCopts.datadir 'VOC2007/ImageSets/%s_%s.txt'];
 VOCopts.annopath=[VOCopts.datadir 'VOC2007/Annotations/%s.txt'];
-VOCopts.imgpath=[VOCopts.datadir 'VOC2007/Images/%s.jpg'];
+VOCopts.imgpath=[VOCopts.datadir 'VOC2007/Images/%s.png'];
 VOCopts.clsrespath=[VOCopts.resdir '%s_cls_' VOCopts.testset '_%s.txt'];
 VOCopts.detrespath=[VOCopts.resdir '%s_det_' VOCopts.testset '_%s.txt'];
 

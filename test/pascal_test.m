@@ -53,7 +53,7 @@ catch
   parfor i = 1:num_ids;
     fprintf_flush('%s: testing: %s %s, %d/%d\n', cls, testset, year, ...
             i, num_ids);
-    if strcmp('inriaperson', cls)
+    if strcmp('inriaperson1', cls)
       % INRIA uses a mixutre of PNGs and JPGs, so we need to use the annotation
       % to locate the image.  The annotation is not generally available for PASCAL
       % test data (e.g., 2009 test), so this method can fail for PASCAL.
