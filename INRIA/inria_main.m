@@ -14,18 +14,30 @@ timestamp = datestr(datevec(now()), 'dd.mmm.yyyy:HH.MM.SS');
 diary(conf.training.log([cls '-' timestamp]));
 
 % Train a model
-th = tic;
-model = pascal_train(cls, 1, timestamp);
-toc(th);
+%th = tic;
+%model = pascal_train(cls, 1, timestamp);
+%toc(th);
 
 % Free the feature vector cache memory
-fv_cache('free');
+%fv_cache('free');
 
+load([cachedir cls '_final.mat']);
 % Lower threshold to get high recall
 model.thresh = min(conf.eval.max_thresh, model.thresh);
 model.interval = conf.eval.interval;
 
 testset = 'testpos';
+testyear = '2007';
+suffix = '2007';
 % Collect detections on the test set
-ds = pascal_test(model, testset, '2007', '2007');
+ds = pascal_test(model, testset, testyear, suffix);
+
+% Evaluate the model without bounding box prediction
+%ap1 = pascal_eval(cls, ds, testset, testyear, suffix);
+%fprintf('AP = %.4f (without bounding box prediction)\n', ap1);
+
+% Recompute AP after applying bounding box prediction
+[ap1, ap2] = bboxpred_rescore(cls, testset, testyear, suffix);
+fprintf('AP = %.4f (without bounding box prediction)\n', ap1);
+fprintf('AP = %.4f (with bounding box prediction)\n', ap2);
 

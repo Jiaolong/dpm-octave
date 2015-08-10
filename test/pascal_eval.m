@@ -35,6 +35,7 @@ VOCopts  = conf.pascal.VOCopts;
 
 ids = textread(sprintf(VOCopts.imgsetpath, testset), '%s');
 
+exists_or_mkdir(VOCopts.resdir);
 % write out detections in PASCAL format and score
 fid = fopen(sprintf(VOCopts.detrespath, 'comp3', cls), 'w');
 for i = 1:length(ids);
