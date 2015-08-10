@@ -56,6 +56,8 @@ end
 
 
 function beta = getcoeffs(method, X, y)
+X = double(X);
+y = double(y);
 switch lower(method)
   case 'default'
     % Least squares regression

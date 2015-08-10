@@ -1,7 +1,7 @@
 % add path
 incl = {'utils', 'data', 'vis', 'model', 'gdetect',...
 'features', 'bin', 'train', 'evaluation', 'test', ...
-'fv_cache', 'external', 'bbox_pred', 'INRIA'};
+'fv_cache', 'external', 'bbox_pred', 'star-cascade', 'INRIA'};
 
 for i = 1:length(incl)
 	addpath(genpath(incl{i}));

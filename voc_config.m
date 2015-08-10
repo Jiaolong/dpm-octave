@@ -123,6 +123,11 @@ conf = cv(conf, 'paths.self', fullfile(pwd(), [mfilename() '.m']));
 %tmp.bytes;
 conf = cv(conf, 'single_byte_size', 4);
 
+% -------------------------------------------------------------------
+% Cascade configuration 
+% -------------------------------------------------------------------
+conf = cv(conf, 'cascade.data_dir', [pwd() '/star-cascade/data/']);
+exists_or_mkdir(conf.cascade.data_dir);
 
 % -------------------------------------------------------------------
 % PASCAL VOC configuration 
@@ -217,7 +222,6 @@ conf = cv(conf, 'features.extra_octave', false);
 % -------------------------------------------------------------------
 % Helper functions
 % -------------------------------------------------------------------
-
 
 % -------------------------------------------------------------------
 % Returns the 'VOCopts' variable from the VOCdevkit. The path to the

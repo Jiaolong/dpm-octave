@@ -30,6 +30,9 @@ fprintf('Compiling fv_cache ...\n');
 
 fv_compile(verb);
 
+% compile star-cascade
+cascade_compile(verb);
+
 % clean up
 delete *.o;
 
@@ -73,3 +76,21 @@ catch e
 end
 
 end
+
+function cascade_compile(verb)
+
+if ispc
+  error('start-cascade is not supported on Windows.');
+end
+
+mexcmd = ' mkoctfile --mex ';
+
+if verb
+    mexcmd = [mexcmd ' -v'];
+end
+
+mexcmd = [mexcmd ' star-cascade/cascade.cc star-cascade/model.cc' ' -o ../bin/cascade.mex'];
+
+eval(mexcmd);
+end
+
